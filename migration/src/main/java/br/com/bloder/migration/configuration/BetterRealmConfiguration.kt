@@ -1,6 +1,7 @@
 package br.com.bloder.migration.configuration
 
 import android.content.Context
+import br.com.bloder.migration.BetterMigration
 import br.com.bloder.migration.Migration
 import br.com.bloder.migration.internal.detail.MigrationDetail
 import br.com.bloder.migration.internal.detail.RealmConfigurationDetail
@@ -30,6 +31,7 @@ class BetterRealmConfiguration() {
          * Set realm name in realm configuration details
          *
          * @param name realm file name
+         * @return Builder class instance
          */
         fun name (name: String) : Builder {
             realmConfigurationDetails.name = name
@@ -37,9 +39,22 @@ class BetterRealmConfiguration() {
         }
 
         /**
+         * Set realm version in realm configuration details
+         *
+         * @param version realm configuration version
+         * @return Builder class instance
+         */
+
+        fun version (version: Long) : Builder {
+            this.realmConfigurationDetails.version = version
+            return this
+        }
+
+        /**
          * Set a migration in migration detail
          *
          * @param migration migration class
+         * @return Builder class instance
          */
         fun migration (migration : Migration) : MigrationBuilder {
             this.migrationDetail.migration = migration
@@ -65,7 +80,13 @@ class BetterRealmConfiguration() {
                            private var migrationDetail: MigrationDetail,
                            private var realmConfigurationDetails: RealmConfigurationDetail) {
 
-        fun withVersion (version: Int) : Builder {
+        /**
+         * Set migration specific version
+         *
+         * @param version migration version
+         * @return Builder class instance
+         */
+        fun withVersion (version: Long) : Builder {
             migrationDetail.version = version
             realmConfigurationDetails.migration.add(migrationDetail)
             return Builder(context, realmConfigurationDetails)
@@ -88,6 +109,8 @@ class BetterRealmConfiguration() {
     fun createRealmConfiguration() : RealmConfiguration {
         val realmConfiguration : RealmConfiguration.Builder = RealmConfiguration.Builder(context)
         realmConfiguration.name(realmConfigurationDetails.name)
+        realmConfiguration.schemaVersion(realmConfigurationDetails.version)
+        for (migration : MigrationDetail in realmConfigurationDetails.migration) realmConfiguration.migration(BetterMigration(migration))
         return realmConfiguration.build()
     }
 }
