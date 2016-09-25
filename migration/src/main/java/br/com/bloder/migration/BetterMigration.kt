@@ -14,7 +14,7 @@ class BetterMigration(private val migration: MigrationDetail) : RealmMigration {
      * Realm Migration main function
      */
     override fun migrate(realm: DynamicRealm?, oldVersion: Long, newVersion: Long) {
-        if (newVersion < oldVersion) {
+        if (newVersion < oldVersion && newVersion == migration.version) {
             migration.migration?.down()
         }
         if (newVersion == migration.version) {
