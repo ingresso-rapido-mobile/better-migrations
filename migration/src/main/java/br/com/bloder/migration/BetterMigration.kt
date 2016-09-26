@@ -13,12 +13,12 @@ class BetterMigration(private val migration: MigrationDetail) : RealmMigration {
     /**
      * Realm Migration main function
      */
-    override fun migrate(realm: DynamicRealm?, oldVersion: Long, newVersion: Long) {
-        if (newVersion < oldVersion && newVersion == migration.version) {
-            migration.migration?.down()
+    override fun migrate(realm: DynamicRealm, oldVersion: Long, newVersion: Long) {
+        if (migration.version > newVersion) {
+            migration.migration?.down(realm)
         }
         if (newVersion == migration.version) {
-            migration.migration?.up()
+            migration.migration?.up(realm)
         }
     }
 }
