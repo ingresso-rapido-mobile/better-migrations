@@ -220,7 +220,7 @@ Event: 8,427 GC heap before
 Deoptimization events (10 events):
 Event: 5,420 Thread 0x00007fa65800a000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007fa649316550 method=com.android.dx.rop.code.RegisterSpecSet.put(Lcom/android/dx/rop/code/RegisterSpec;)V @ 77
 Event: 5,641 Thread 0x00007fa65813f000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007fa6492ad51c method=com.android.dx.rop.cst.Constant.compareTo(Lcom/android/dx/rop/cst/Constant;)I @ 12
-Event: 6,011 Thread 0x00007fa65813a800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007fa6492eaa20 method=com.android.dx.rop.code.RegisterSpec.equals(ILcom/android/dx/rop/type/TypeBearer;Lcom/android/dx/rop/code/LocalItem;)Z @ 42
+Event: 6,011 Thread 0x00007fa65813a800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007fa6492eaa20 method=com.android.dx.rop.code.RegisterSpec.equals(ILcom/android/dx/rop/newType/TypeBearer;Lcom/android/dx/rop/code/LocalItem;)Z @ 42
 Event: 6,114 Thread 0x00007fa65813f800 Uncommon trap: reason=null_check action=make_not_entrant pc=0x00007fa6492b1abc method=com.android.dx.ssa.SsaRenamer.getLocalForNewReg(I)Lcom/android/dx/rop/code/LocalItem; @ 19
 Event: 6,152 Thread 0x00007fa65813a800 Uncommon trap: reason=bimorphic action=maybe_recompile pc=0x00007fa6492354a0 method=java.util.HashMap.getNode(ILjava/lang/Object;)Ljava/util/HashMap$Node; @ 126
 Event: 6,152 Thread 0x00007fa65813a800 Uncommon trap: reason=bimorphic action=maybe_recompile pc=0x00007fa6492354a0 method=java.util.HashMap.getNode(ILjava/lang/Object;)Ljava/util/HashMap$Node; @ 126
