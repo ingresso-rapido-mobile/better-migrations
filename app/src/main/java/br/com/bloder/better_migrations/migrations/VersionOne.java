@@ -1,6 +1,7 @@
 package br.com.bloder.better_migrations.migrations;
 
 import br.com.bloder.migration.Migration;
+import br.com.bloder.migration.schema.BetterSchema;
 import io.realm.DynamicRealm;
 
 /**
@@ -10,11 +11,15 @@ public class VersionOne extends Migration {
 
   @Override
   public void up(DynamicRealm realm) {
-    realm.getSchema().get("User").addField("age", Integer.class);
+    BetterSchema betterSchema = new BetterSchema();
+    betterSchema.setSchema(realm);
+    betterSchema.addField("age", Integer.class).inClass("User");
   }
 
   @Override
   public void down(DynamicRealm realm) {
-    realm.getSchema().get("User").removeField("age");
+    BetterSchema betterSchema = new BetterSchema();
+    betterSchema.setSchema(realm);
+    betterSchema.removeField("age").inClass("User");
   }
 }
