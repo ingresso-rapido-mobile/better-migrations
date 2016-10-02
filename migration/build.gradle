@@ -1,6 +1,13 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'realm-android'
+apply plugin: "maven-publish"
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven'
+
+version = "1.0"
+group = 'com.github.ir'
 
 android {
     compileSdkVersion 23
@@ -20,6 +27,71 @@ android {
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+
+                name 'better-migrations'
+                description = 'Make realm migrations awesome'
+                url 'https://github.com/ingresso-rapido-mobile/better-migrations'
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'bloder'
+                        name 'Bloder'
+                        email 'aptgetinstalldanielleme@gmail.com'
+                    }
+                }
+                scm {
+                    connection 'https://github.com/ingresso-rapido-mobile/better-migrations.git'
+                    developerConnection 'https://github.com/ingresso-rapido-mobile/better-migrations.git'
+                    url 'https://github.com/ingresso-rapido-mobile/better-migrations'
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = 'better-migrations'
+        licenses = ['Apache-2.0']
+        websiteUrl = 'https://github.com/ingresso-rapido-mobile/better-migrations'
+        vcsUrl = 'https://github.com/ingresso-rapido-mobile/better-migrations.git'
+        publish = true
+        version {
+            gpg {
+                sign = true
+                passphrase = properties.getProperty("bintray.gpg.password")
+            }
+        }
     }
 }
 
