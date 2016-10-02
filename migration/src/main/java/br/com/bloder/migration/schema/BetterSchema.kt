@@ -15,11 +15,10 @@ class BetterSchema {
 
     private var schema: RealmSchema? = null
 
-    fun setSchema(dynamicRealm: DynamicRealm) : RealmSchema {
+    fun setSchema(dynamicRealm: DynamicRealm) {
         this.schema = dynamicRealm.schema
-        return schema as RealmSchema
     }
-
+    
     fun addField(name: String, type: Class<*>) : SchemaDetails = SchemaDetails(schema as RealmSchema, name, type, null, ADD)
     fun removeField(name: String) : SchemaDetails = SchemaDetails(schema as RealmSchema, name, REMOVE)
     fun changeFieldType(name: String, oldType: Class<*>, newType: Class<*>) : SchemaDetails = SchemaDetails(schema as RealmSchema, name, newType, oldType, CHANGE_TYPE)
