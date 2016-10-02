@@ -15,7 +15,7 @@ class BetterSchema {
 
     private var schema: RealmSchema? = null
 
-    fun getSchema(dynamicRealm: DynamicRealm) : RealmSchema {
+    fun setSchema(dynamicRealm: DynamicRealm) : RealmSchema {
         this.schema = dynamicRealm.schema
         return schema as RealmSchema
     }
