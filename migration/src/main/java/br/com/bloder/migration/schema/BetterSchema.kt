@@ -31,9 +31,9 @@ class BetterSchema {
         fun inClass(className: String) {
             val realmObjectSchema: RealmObjectSchema = schema.get(className)
             when(func) {
-                ADD -> if (!realmObjectSchema.hasField(className)) realmObjectSchema.addField(name, type)
+                ADD -> if (!realmObjectSchema.hasField(name)) realmObjectSchema.addField(name, type)
                 REMOVE -> if (realmObjectSchema.hasField(name)) realmObjectSchema.removeField(name)
-                CHANGE_TYPE -> changeType(realmObjectSchema, name, type as Class<*>)
+                CHANGE_TYPE -> if (realmObjectSchema.hasField(name)) changeType(realmObjectSchema, name, type as Class<*>)
             }
         }
 
