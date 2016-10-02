@@ -2,7 +2,6 @@ package br.com.bloder.migration.schema
 
 import br.com.bloder.migration.schema.SCHEMA_ACTIONS.*
 import io.realm.DynamicRealm
-import io.realm.DynamicRealmObject
 import io.realm.RealmObjectSchema
 import io.realm.RealmSchema
 import java.util.*
@@ -29,26 +28,21 @@ class BetterSchema {
 
         constructor(schema: RealmSchema, name: String, func: SCHEMA_ACTIONS) : this(schema, name, null, null, func) {}
 
-        fun into(className: String) {
+        fun inClass(className: String) {
             val realmObjectSchema: RealmObjectSchema = schema.get(className)
             when(func) {
                 ADD -> if (!realmObjectSchema.hasField(className)) realmObjectSchema.addField(name, type)
                 REMOVE -> if (realmObjectSchema.hasField(name)) realmObjectSchema.removeField(name)
-                CHANGE_TYPE -> changeType(realmObjectSchema, name, type as Class<*>, oldType as Class<*>)
+                CHANGE_TYPE -> changeType(realmObjectSchema, name, type as Class<*>)
             }
         }
 
-        private fun changeType(realmObjectSchema: RealmObjectSchema, name: String, newType: Class<*>, oldType: Class<*>) {
+        private fun changeType(realmObjectSchema: RealmObjectSchema, name: String, newType: Class<*>) {
             val randomExtension: String = name + UUID.randomUUID().toString()
             realmObjectSchema.addField(randomExtension, newType)
-            realmObjectSchema.transform(RealmObjectSchema.Function { obj -> obj.setLong(randomExtension, obj.getInt(name).toLong()) })
+            realmObjectSchema.transform(RealmObjectSchema.Function { obj -> obj.set(randomExtension, obj.get(name))})
             realmObjectSchema.removeField(name)
             realmObjectSchema.renameField(randomExtension, name)
         }
-
-        private fun transformValue() {
-
-        }
     }
 }
-
